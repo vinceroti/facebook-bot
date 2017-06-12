@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 })
 
 // for Facebook verification
-app.get('/webhook/', function (req, res) {
+app.get('/webhook/', (req, res) => {
   if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
     res.send(req.query['hub.challenge'])
   }
@@ -42,7 +42,7 @@ app.post('/webhook/', (req, res) => {
     res.sendStatus(200)
 })
 
-sendTextMessage(sender, text) => {
+sendTextMessage = (sender, text) => {
     let messageData = { text:text }
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
@@ -52,7 +52,7 @@ sendTextMessage(sender, text) => {
         recipient: {id:sender},
       message: messageData,
     }
-  }, function(error, response, body) {
+  }, (error, response, body) => {
     if (error) {
         console.log('Error sending messages: ', error)
     } else if (response.body.error) {
