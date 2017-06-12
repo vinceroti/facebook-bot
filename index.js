@@ -42,7 +42,7 @@ app.post('/webhook/', (req, res) => {
     res.sendStatus(200)
 })
 
-sendTextMessage = (sender, text) => {
+let sendTextMessage = (sender, text) => {
     let messageData = { text:text }
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
