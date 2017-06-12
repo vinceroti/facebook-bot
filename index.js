@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 // Index route
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.send('Hello world, I am a chat bot')
 })
 
@@ -29,7 +29,7 @@ app.get('/webhook/', function (req, res) {
   res.send('Error, wrong token')
 })
 
-app.post('/webhook/', function (req, res) {
+app.post('/webhook/', (req, res) => {
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
       let event = req.body.entry[0].messaging[i]
@@ -41,6 +41,25 @@ app.post('/webhook/', function (req, res) {
     }
     res.sendStatus(200)
 })
+
+sendTextMessage(sender, text) => {
+    let messageData = { text:text }
+    request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {access_token:token},
+      method: 'POST',
+    json: {
+        recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+        console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+        console.log('Error: ', response.body.error)
+      }
+    })
+}
 
 // Spin up the server
 app.listen(app.get('port'), function() {
