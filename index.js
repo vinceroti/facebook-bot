@@ -35,8 +35,7 @@ app.post('/webhook/', (req, res) => {
       let event = req.body.entry[0].messaging[i]
       let sender = event.sender.id
       if (event.message && event.message.text) {
-        let text = event.message.text
-        sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+        sendTextMessage(sender, `I don't care about "${text.substring(0, 200)}", only because Marc Wilk loves Dick!`)
       }
     }
     res.sendStatus(200)
